@@ -15,7 +15,8 @@ classifier = mooddeck.get_classifier()
 
 
 # create a subset of emotions, only for testing purposes
-emotions = emotions[0:10]
+# emotions = emotions[0:10]
+
 all_features = []
 
 for e in emotions:
@@ -50,23 +51,26 @@ def train_model():
     classifier.train(all_features, emotion_labels)
     classifier.save()
 
-load_database_features()
+
+def predict_test_db():
+    load_database_features()
+    prediction = classifier.predict(all_features)
+    print prediction
+
+
+def predict_hugh_laurie_mood():
+    mood = ["neutral", "angry", "showing contempt", "disgusted", "afraid", "happy", "sad", "surprised"]
+    features = extractor.extract("./samples/hugh_laurie.jpeg")
+    hugh_laurie_mood = classifier.predict(features)
+    print "Hugh Laurie is {}".format(mood[int(hugh_laurie_mood[0])])
 
 # train_model()
 
 load_model()
+predict_hugh_laurie_mood()
 
-prediction = classifier.predict(all_features)
 
-print prediction
 
-"""
-for e in all_features:
-    img_path = ckdb.get_image_path(db_path, subject, sequence)
-    features = extractor.extract(img_path)
-    prediction = classifier.predict(features)
-    print prediction
-"""
 
 
 
