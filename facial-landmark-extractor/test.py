@@ -1,26 +1,15 @@
+from __future__ import division
 import mooddeck
 import cohnkanadedb as ckdb
 import numpy
 
-# mooddeck.get_landmark_extractor()
-# sample_path = "/Users/i851474/Development/iot/mood-detector/facial-landmark-extractor/samples/"
-# file_name = "hugh_laurie.jpeg"
-
-
 db_path = "/Users/i851474/Development/iot/datasets/cohn-kanade-db"
 emotions = ckdb.get_emotions(db_path)
+# emotions = numpy.array(emotions)[0:20]
 
 extractor = mooddeck.get_landmark_extractor()
 classifier = mooddeck.get_classifier()
-
-
-# create a subset of emotions, only for testing purposes
-# emotions = emotions[0:10]
-
 all_features = []
-
-for e in emotions:
-    print "Subject: {}, Sequence: {}, Emotion Label: {}".format(e[0], e[1], e[2])
 
 def load_model():
     global classifier
@@ -64,10 +53,57 @@ def predict_hugh_laurie_mood():
     hugh_laurie_mood = classifier.predict(features)
     print "Hugh Laurie is {}".format(mood[int(hugh_laurie_mood[0])])
 
+
+def predict_happy_neutral_people():
+    mood = ["neutral", "angry", "showing contempt", "disgusted", "afraid", "happy", "sad", "surprised"]
+    features = extractor.extract("./samples/2008_001322.jpg")
+    happy_people = classifier.predict(features)
+    print "Person 1 is {}".format(mood[int(happy_people[0])])
+    print "Person 2 is {}".format(mood[int(happy_people[1])])
+    print "Person 3 is {}".format(mood[int(happy_people[2])])
+
+
+def perform_cross_validation():
+    global all_features
+    global emotions
+    emotion_labels = numpy.array(emotions)[:,2]
+
+    n = len(all_features)
+    jump = int(numpy.floor(n/10))
+    array = numpy.arange(0,n - jump, jump)
+    means = []
+    for x in array:
+        idx = numpy.concatenate((numpy.arange(0,x), numpy.arange(x+jump,n)), axis=0).tolist()
+        features = all_features[idx,:]
+        labels = emotion_labels[idx]
+        classifier.train(features, labels)
+
+        idx = numpy.arange(x, x+jump)
+        test = all_features[idx, :]
+        labels = emotion_labels[idx]
+        predictions = classifier.predict(test)
+        means.append(sum(labels == predictions) / len(idx))
+
+    print sum(means) / len(array)
+
+
+
+
+# To train the model, uncomment these lines
+# load_database_features()
 # train_model()
 
-load_model()
-predict_hugh_laurie_mood()
+# To load the model already saved, uncomment these lines
+# load_database_features()
+# load_model()
+
+# Predictions after you have the model in memory, load or train the model first
+# predict_happy_neutral_people()
+# predict_hugh_laurie_mood()
+
+# Performing cross validations
+load_database_features()
+perform_cross_validation()
 
 
 

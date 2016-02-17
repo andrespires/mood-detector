@@ -30,9 +30,9 @@ class Classifier(object):
         return self.classifier.predict(features_test)
 
     def save(self):
-        joblib.dump(self.pca, 'pca.pkl')
-        joblib.dump(self.classifier, 'classifier.pkl')
+        joblib.dump(self.pca, './model/pca.pkl')
+        joblib.dump(self.classifier, './model/classifier.pkl')
 
     def load(self):
-        self.pca = joblib.load('pca.pkl')
-        self.classifier = joblib.load('classifier.pkl')
+        self.pca = joblib.load('./model/pca.pkl')
+        self.classifier = joblib.load('./model/classifier.pkl')
