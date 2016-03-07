@@ -29,7 +29,6 @@ class LandmarkExtractor(object):
     """
         extract
     """
-
     def extract(self, filePath):
         img = io.imread(filePath)
         dets = self.detector(img, 1)
@@ -42,15 +41,34 @@ class LandmarkExtractor(object):
         return allFeatures
 
     """
+        extract features and landmark coords
+    """
+    def extract_with_landmark(self, filePath):
+        img = io.imread(filePath)
+        dets = self.detector(img, 1)
+        allFeatureLandmarks = []
+        for k, d in enumerate(dets):
+            feature_landmark = FeatureLandmark()
+            feature_landmark.landmark = self.get_landmarks(img, d)
+            feature_landmark.features = [self.featureMatrix.build(feature_landmark.landmark)]
+            allFeatureLandmarks.append(feature_landmark)
+        return allFeatureLandmarks
+
+    """
         getLandmarks
     """
-
     def get_landmarks(self, image, d):
         """
         :rtype : numpy.matrix
         """
         return numpy.matrix([[p.x, p.y] for p in self.predictor(image, d).parts()])
 
+
+class FeatureLandmark(object):
+
+    def __init__(self):
+        self.features = None
+        self.landmark = None
 
 class FeatureMatrix(object):
     """

@@ -5,6 +5,7 @@ from sklearn import decomposition
 from sklearn import svm
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.externals import joblib
+import mood.settings.const as const
 
 
 class Classifier(object):
@@ -30,9 +31,9 @@ class Classifier(object):
         return self.classifier.predict(features_test)
 
     def save(self):
-        joblib.dump(self.pca, './model/pca.pkl')
-        joblib.dump(self.classifier, './model/classifier.pkl')
+        joblib.dump(self.pca, const.pca_model_path)
+        joblib.dump(self.classifier, const.classifier_model_path)
 
     def load(self):
-        self.pca = joblib.load('./model/pca.pkl')
-        self.classifier = joblib.load('./model/classifier.pkl')
+        self.pca = joblib.load(const.pca_model_path)
+        self.classifier = joblib.load(const.classifier_model_path)

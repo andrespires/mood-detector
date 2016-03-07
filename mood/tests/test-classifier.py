@@ -1,13 +1,16 @@
 from __future__ import division
-import mooddeck
-import cohnkanadedb as ckdb
+
 import numpy
+
+import mood.mooddeck as mooddeck
+import mood.cohnkanadedb as ckdb
+import mood.settings.const as const
 
 db_path = "/Users/i851474/Development/iot/datasets/cohn-kanade-db"
 emotions = ckdb.get_emotions(db_path)
 # emotions = numpy.array(emotions)[0:20]
 
-extractor = mooddeck.get_landmark_extractor()
+extractor = mooddeck.get_landmark_extractor(const.landmark_predictor_path)
 classifier = mooddeck.get_classifier()
 all_features = []
 
@@ -90,8 +93,8 @@ def perform_cross_validation():
 
 
 # To train the model, uncomment these lines
-# load_database_features()
-# train_model()
+load_database_features()
+train_model()
 
 # To load the model already saved, uncomment these lines
 # load_database_features()
@@ -102,8 +105,8 @@ def perform_cross_validation():
 # predict_hugh_laurie_mood()
 
 # Performing cross validations
-load_database_features()
-perform_cross_validation()
+# load_database_features()
+# perform_cross_validation()
 
 
 
