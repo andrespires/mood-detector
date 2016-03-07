@@ -2,9 +2,9 @@
 
 """
 from sklearn import decomposition
-from sklearn import svm
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.externals import joblib
+
 import mood.settings.const as const
 
 

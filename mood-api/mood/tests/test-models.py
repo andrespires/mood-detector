@@ -1,8 +1,7 @@
-from mood.model.models import Picture, Face, Point, MoodProcess
-
 import datetime
-
 import unittest
+
+from mood.model.models import Picture, Face, Point, MoodProcess
 
 class TestModels(unittest.TestCase):
 

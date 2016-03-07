@@ -1,6 +1,7 @@
 __author__ = 'Andre Pires'
 
 from pymongo import MongoClient
+
 import const
 
 DATABASES = {

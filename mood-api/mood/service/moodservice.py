@@ -1,8 +1,9 @@
 __author__ = 'Andre Pires'
 
+import datetime
+
 from picturemodelservice import PictureModelService
 import mood.mooddeck as mooddeck
-import datetime
 from mood.model.models import MoodProcess, Face, Point
 import mood.settings.const as const
 
