@@ -3,11 +3,11 @@ from __future__ import division
 import numpy
 
 import mood.mooddeck as mooddeck
-import mood.cohnkanadedb as ckdb
+import mood.imagedb as imgdb
 import mood.settings.const as const
 
 db_path = "/Users/i851474/Development/iot/datasets/cohn-kanade-db"
-emotions = ckdb.get_emotions(db_path)
+emotions = imgdb.get_emotions(db_path)
 # emotions = numpy.array(emotions)[0:20]
 
 extractor = mooddeck.get_landmark_extractor(const.landmark_predictor_path)
@@ -27,7 +27,7 @@ def load_database_features():
     for e in emotions:
         subject = e[0]
         sequence = e[1]
-        img_path = ckdb.get_image_path(db_path, subject, sequence)
+        img_path = imgdb.get_image_path(db_path, subject, sequence)
         features = extractor.extract(img_path)
         if len(all_features) == 0:
             all_features = features[0]

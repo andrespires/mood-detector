@@ -1,7 +1,6 @@
 __author__ = 'Andre Pires'
 
 import os
-import io
 
 def get_emotions(dbpath):
     labels_path = dbpath + "/emotion-labels"
