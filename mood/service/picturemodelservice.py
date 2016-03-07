@@ -18,6 +18,19 @@ class PictureModelService(object):
         pic = Picture(obj)
         return pic
 
+    def find_by_query(self, query, limit):
+        pictures = self.get_pictures_collection()
+        objs = pictures.find(query).sort([("_id", -1)]).limit(limit)
+        if objs is None:
+            return None
+        picture_list = []
+        for obj in objs:
+            ## removing '_id' from the object, otherwise jsonobject will fail to deserialize
+            del obj[const.MONGODB_ID]
+            pic = Picture(obj)
+            picture_list.append(pic)
+        return picture_list
+
     def delete(self, uid):
         pictures = self.get_pictures_collection()
         result = pictures.delete_one({const.UID: uid})
